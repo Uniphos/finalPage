@@ -1,0 +1,29 @@
+.login-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #415A77;
+}
+
+input{
+    background-color: #E0E0E2;
+    color:#0D1B2A;
+}
+
+h1 {
+
+    color: #E0E0E2;
+}
+
+.googleImg img {
+    margin-left: 25px;
+    width: 90%;
+    height: 90%;
+}

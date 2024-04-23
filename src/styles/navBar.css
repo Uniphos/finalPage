@@ -1,13 +1,13 @@
 .navbar {
     position: fixed;
     top: 0;
-    width: 100%;
+    width: 98%;
     display: flex;
-    justify-content: center !important; /* Updated this line */
+    justify-content: space-between; /* Updated this line */
     align-items: center;
     padding: 10px 20px;
     flex-wrap: wrap;
-    background: #0D1B2A;;
+    background: #0D1B2A;
     height: 75px;
     z-index: 1000;
   }
@@ -45,7 +45,7 @@
   margin-bottom: 35px;
   }
 
-  .avbar__auth-item {
+  .navbar__auth-item {
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
@@ -58,3 +58,9 @@
     color:#E0E0E2;
     margin-bottom: 35px;
   }
+
+  .navbar__auth {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
