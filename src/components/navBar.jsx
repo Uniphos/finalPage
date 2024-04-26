@@ -31,6 +31,7 @@ function NavBar() {
             console.error(err);
         }
     }
+    
     return (
         <div className="navbar">
             <div className="navbar__logo">
