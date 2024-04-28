@@ -52,7 +52,8 @@ const HomePage = () => {
                 date: getDate(),
                 creator: auth.currentUser.uid,
                 upVotes: 0,
-                email: auth.currentUser.email
+                email: auth.currentUser.email,
+                comments: []
             });
 
             setTrigger(false);

@@ -2,12 +2,13 @@ import PageLayout from "../components/pageLayout";
 import React, { useEffect, useState } from "react";
 import "../styles/info.css";
 import { useParams } from "react-router-dom";
-import { getDoc, doc, collection, setDoc, arrayUnion, updateDoc, deleteDoc } from "firebase/firestore";
+import { getDoc, doc, arrayUnion, updateDoc, deleteDoc } from "firebase/firestore";
 import {onAuthStateChanged} from "firebase/auth";
 import { db } from "../config/firebase";
 import { auth } from "../config/firebase";
 import PopUp from "../components/newPost";
-import { get, update } from "firebase/database";
+import { get, set, update } from "firebase/database";
+import firebase from "firebase/compat/app";
 
 const Info = () => {
     const { id } = useParams();
@@ -25,12 +26,14 @@ const Info = () => {
             .then((doc) => {
                 if (doc.exists()) {
                     setPost(doc.data());
+                    console.log(doc.data(), "smile");
                 } else {
                     console.log("No such document!");
                 }
-                console.log(doc.data(), doc.id);
-            })
+            });
+
     }
+    
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -47,20 +50,41 @@ const Info = () => {
         return () => unsubscribe();
     }, []);
 
-    const handleSubmit = async (id) => {
+    /*const handleSubmit = async () => {
         try{
             console.log(id);
-            const postDoc = doc(db, "posts", `${id}`);
-            console.log(postDoc);
-            await setDoc(postDoc,
-                {comments: {user: auth.currentUser.email, comment: comment}, 
-                }, {merge: true});
-
-            getPost();
+            const docRef = doc(db, "posts", `${id}`);
+            let newMap = {user: auth.currentUser.email, comment: comment};
+            await getDoc(docRef)
+            .then((doc) => {
+                console.log(doc);
+                if (doc.exists()) {
+                    updateDoc(doc.data(), {comments: arrayUnion(newMap)});
+                } else {
+                    console.log("No such document!");
+                }
+            });
+            
+            
+            
         }catch(err){
             console.error(err);
         }
     }
+*/
+    const handleSubmit = async () => {
+    const docRef = doc(db, "posts", `${id}`);
+    let newMap = {user: auth.currentUser.email, comment: comment};
+    const docSnapshot = await getDoc(docRef);
+    if (docSnapshot.exists()) {
+        await updateDoc(docRef, {comments: arrayUnion(newMap)});
+    } else {
+        console.log("No such document!");
+    }
+
+    setComment('');
+    getPost();
+}
 
     const editPost = async () => {
         try{
@@ -121,8 +145,8 @@ const Info = () => {
                 <div className="comments">
                     
                     <h1>Comments:</h1>
-                    <textarea placeholder="Add a comment" onChange={(e) => setComment(e.target.value)}/>
-                    <button onClick={() => handleSubmit({id})} className="submit" >Submit</button>
+                    <textarea placeholder="Add a comment" value={comment} onChange={(e) => setComment(e.target.value)}/>
+                    <button onClick={() => handleSubmit()} className="submit" >Submit</button>
 
                     {post.comments && post.comments.length > 0? 
                     post.comments.map((comment) => (
