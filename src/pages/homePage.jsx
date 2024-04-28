@@ -1,7 +1,7 @@
 import React from "react";
 import PageLayout from "../components/pageLayout";
 import "../styles/homepage.css";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { auth } from "../config/firebase";
 import { db } from "../config/firebase";
@@ -34,6 +34,7 @@ const HomePage = () => {
     const getlist = async () => {
         try{
             const data = await getDocs(postRef);
+            console.log(data);
             const filteredData = data.docs.map(doc => ({...doc.data(), id: doc.id}));
             console.log(filteredData);
             setPostList(filteredData);
@@ -51,6 +52,7 @@ const HomePage = () => {
                 date: getDate(),
                 creator: auth.currentUser.uid,
                 upVotes: 0,
+                email: auth.currentUser.email
             });
 
             setTrigger(false);
@@ -179,7 +181,7 @@ const HomePage = () => {
                                 <textarea placeholder="Write your description here..." value={description} onChange={(e) => setDescription(e.target.value)} />
                             </div>
                             <br />
-                            <button className="submit" onClick={addPost}>Submit</button>
+                            <button className="submits" onClick={addPost}>Submit</button>
                     </PopUp>
 
                     <div className="post-container">
