@@ -27,3 +27,7 @@ h1 {
     width: 90%;
     height: 90%;
 }
+
+.googleImg img:hover {
+    cursor: pointer;
+}
